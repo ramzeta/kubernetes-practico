@@ -1,0 +1,15 @@
+
+# cleanup.yaml
+# Este archivo eliminará todos los recursos creados durante la configuración de Spring PetClinic con Prometheus y Grafana
+
+# Eliminar el namespace de monitoring (Prometheus, Grafana, Alertmanager, etc.)
+kubectl delete namespace monitoring --ignore-not-found
+
+# Eliminar los recursos de PetClinic
+kubectl delete -f k8s/db.yml --ignore-not-found
+kubectl delete -f k8s/petclinic.yml --ignore-not-found
+kubectl delete -f k8s/petclinic-monitoring.yaml --ignore-not-found
+
+# Eliminar los recursos si fueron instalados con Helm (opcional)
+helm uninstall kube-prometheus-stack -n monitoring --ignore-not-found
+helm uninstall grafana -n monitoring --ignore-not-found
